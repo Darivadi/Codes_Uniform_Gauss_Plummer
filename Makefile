@@ -1,7 +1,7 @@
 CC = gcc
 #CFLAGS = -g -Wall -I/home/$(USER)/libs/include/ -I/usr/include/ -DCIC -DBINARYDATA
 CFLAGS = -c -O3 -I/home/$(USER)/local/include/ -I/usr/include/ -DCIC -DBINARYDATA
-LFLAGS = -L/home/$(USER)/libs/lib 
+LFLAGS = -L/home/$(USER)/local/lib 
 PROGRAM = CIC_uniform
 #PROGRAM = CIC_plummer
 #PROGRAM = CIC_plot_dens
