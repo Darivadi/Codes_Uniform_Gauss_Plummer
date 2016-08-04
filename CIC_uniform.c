@@ -194,6 +194,7 @@ int main(){
     }//for j
   }//for i
   
+  /*
   outfile = fopen("dens_uniform.dat","w");
 
   fprintf(outfile,
@@ -201,7 +202,7 @@ int main(){
 	  "#", "Index", "x", "y", "z",
 	  "vx", "vy", "vz",
 	  "rho", "DenCon", "Np_cell");
-  
+  */
   for(i=0; i<GV.NGRID; i++){
     for(j=0; j<GV.NGRID; j++){
       for(k=0; k<GV.NGRID; k++){
@@ -219,16 +220,19 @@ int main(){
 	/* Calculating the final density contrast in the cell */
 	cells[index].denCon = (cells[index].rho/GV.rhoMean) - 1.0;
 	/* Writting in the file  */
-	fprintf(outfile,
+	/*fprintf(outfile,
 		"%10d %12.6lf %12.6lf %12.6lf %12.6lf %12.6lf %12.6lf %12.6lf %12.6lf %10d\n", 
 		index, xc, yc, zc, 
 		cells[index].velx, cells[index].vely, cells[index].velz, 
 		cells[index].rho, cells[index].denCon, cells[index].Np_cell);
+	*/
       }//for k
     }// for j
   }// for i
-  fclose(outfile);
+  //fclose(outfile);
 
+  /* Writting in the file  */
+  write_binary();
   
   
   /* Freeing up memory allocation */

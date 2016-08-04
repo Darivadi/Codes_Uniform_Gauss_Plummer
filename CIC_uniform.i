@@ -1,5 +1,5 @@
 # 1 "CIC_uniform.c"
-# 1 "/home/dvalencia/ISW_effect/Simulation_400Mpc/Codes/Codes_Uniform_Gauss_Plummer//"
+# 1 "/home/darivadi/Documents/University/Master/Courses/Investigation_III/Codes_last_version/Codes_Uniform_Gauss_Plummer//"
 # 1 "<built-in>"
 # 1 "<command-line>"
 # 1 "/usr/include/stdc-predef.h" 1 3 4
@@ -3480,15 +3480,7 @@ int main(){
       }
     }
   }
-
-  outfile = fopen("dens_uniform.dat","w");
-
-  fprintf(outfile,
-   "%s%9s %12s %12s %12s %12s %12s %12s %12s %12s %12s\n",
-   "#", "Index", "x", "y", "z",
-   "vx", "vy", "vz",
-   "rho", "DenCon", "Np_cell");
-
+# 206 "CIC_uniform.c"
   for(i=0; i<GV.NGRID; i++){
     for(j=0; j<GV.NGRID; j++){
       for(k=0; k<GV.NGRID; k++){
@@ -3506,16 +3498,19 @@ int main(){
 
  cells[index].denCon = (cells[index].rho/GV.rhoMean) - 1.0;
 
- fprintf(outfile,
-  "%10d %12.6lf %12.6lf %12.6lf %12.6lf %12.6lf %12.6lf %12.6lf %12.6lf %10d\n",
-  index, xc, yc, zc,
-  cells[index].velx, cells[index].vely, cells[index].velz,
-  cells[index].rho, cells[index].denCon, cells[index].Np_cell);
+
+
+
+
+
+
       }
     }
   }
-  fclose(outfile);
 
+
+
+  write_binary();
 
 
 
