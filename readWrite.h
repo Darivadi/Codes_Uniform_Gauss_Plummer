@@ -72,6 +72,10 @@ int write_binary(void)
   //outFile = fopen("./../../Processed_data/CIC_DenCon_field_256.bin", "w");                                    
   outFile = fopen("./../../Processed_data/CIC_DenCon_uniform_256.bin", "w");
 
+  GV.OmegaM0 = 0.258;
+  GV.OmegaL0 = 0.742;
+  GV.zRS = 0.0;
+  GV.HubbleParam = 0.72;
   /*+++++ Saving Simulation parameters +++++*/
   fwrite(&GV.L, sizeof(double), 1, outFile);  //Box Size                                                        
   fwrite(&GV.OmegaM0, sizeof(double), 1, outFile);  //Matter density parameter                                  

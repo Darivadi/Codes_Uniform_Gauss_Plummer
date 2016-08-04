@@ -1137,7 +1137,7 @@ read_parameters:
 	.align 8
 .LC31:
 	.string	"./../../Processed_data/CIC_DenCon_uniform_256.bin"
-.LC32:
+.LC35:
 	.string	"Ntotalgrid=%15d\n"
 	.text
 	.globl	write_binary
@@ -1159,52 +1159,64 @@ write_binary:
 	movl	$.LC31, %edi
 	call	fopen
 	movq	%rax, -72(%rbp)
+	.loc 2 75 0
+	movabsq	$4598319334733352272, %rax
+	movq	%rax, GV+1064(%rip)
 	.loc 2 76 0
+	movabsq	$4604858561392294232, %rax
+	movq	%rax, GV+1072(%rip)
+	.loc 2 77 0
+	movl	$0, %eax
+	movq	%rax, GV+1080(%rip)
+	.loc 2 78 0
+	movabsq	$4604660403008689930, %rax
+	movq	%rax, GV+1088(%rip)
+	.loc 2 80 0
 	movq	-72(%rbp), %rax
 	movq	%rax, %rcx
 	movl	$1, %edx
 	movl	$8, %esi
 	movl	$GV+8, %edi
 	call	fwrite
-	.loc 2 77 0
+	.loc 2 81 0
 	movq	-72(%rbp), %rax
 	movq	%rax, %rcx
 	movl	$1, %edx
 	movl	$8, %esi
 	movl	$GV+1064, %edi
 	call	fwrite
-	.loc 2 78 0
+	.loc 2 82 0
 	movq	-72(%rbp), %rax
 	movq	%rax, %rcx
 	movl	$1, %edx
 	movl	$8, %esi
 	movl	$GV+1072, %edi
 	call	fwrite
-	.loc 2 79 0
+	.loc 2 83 0
 	movq	-72(%rbp), %rax
 	movq	%rax, %rcx
 	movl	$1, %edx
 	movl	$8, %esi
 	movl	$GV+1080, %edi
 	call	fwrite
-	.loc 2 80 0
+	.loc 2 84 0
 	movq	-72(%rbp), %rax
 	movq	%rax, %rcx
 	movl	$1, %edx
 	movl	$8, %esi
 	movl	$GV+1088, %edi
 	call	fwrite
-	.loc 2 82 0
+	.loc 2 86 0
 	movl	GV+24(%rip), %eax
 	movl	%eax, %esi
-	movl	$.LC32, %edi
+	movl	$.LC35, %edi
 	movl	$0, %eax
 	call	printf
-	.loc 2 84 0
+	.loc 2 88 0
 	movl	$0, -76(%rbp)
 	jmp	.L59
 .L60:
-	.loc 2 87 0 discriminator 2
+	.loc 2 91 0 discriminator 2
 	movq	cells(%rip), %rcx
 	movl	-76(%rbp), %eax
 	movslq	%eax, %rdx
@@ -1215,7 +1227,7 @@ write_binary:
 	addq	%rcx, %rax
 	movq	56(%rax), %rax
 	movq	%rax, -64(%rbp)
-	.loc 2 88 0 discriminator 2
+	.loc 2 92 0 discriminator 2
 	movq	cells(%rip), %rcx
 	movl	-76(%rbp), %eax
 	movslq	%eax, %rdx
@@ -1226,7 +1238,7 @@ write_binary:
 	addq	%rcx, %rax
 	movq	64(%rax), %rax
 	movq	%rax, -56(%rbp)
-	.loc 2 89 0 discriminator 2
+	.loc 2 93 0 discriminator 2
 	movq	cells(%rip), %rcx
 	movl	-76(%rbp), %eax
 	movslq	%eax, %rdx
@@ -1237,7 +1249,7 @@ write_binary:
 	addq	%rcx, %rax
 	movq	72(%rax), %rax
 	movq	%rax, -48(%rbp)
-	.loc 2 91 0 discriminator 2
+	.loc 2 95 0 discriminator 2
 	movq	-72(%rbp), %rdx
 	leaq	-64(%rbp), %rax
 	movq	%rdx, %rcx
@@ -1245,7 +1257,7 @@ write_binary:
 	movl	$8, %esi
 	movq	%rax, %rdi
 	call	fwrite
-	.loc 2 94 0 discriminator 2
+	.loc 2 98 0 discriminator 2
 	movq	cells(%rip), %rcx
 	movl	-76(%rbp), %eax
 	movslq	%eax, %rdx
@@ -1256,7 +1268,7 @@ write_binary:
 	addq	%rcx, %rax
 	movq	16(%rax), %rax
 	movq	%rax, -32(%rbp)
-	.loc 2 95 0 discriminator 2
+	.loc 2 99 0 discriminator 2
 	movq	cells(%rip), %rcx
 	movl	-76(%rbp), %eax
 	movslq	%eax, %rdx
@@ -1267,7 +1279,7 @@ write_binary:
 	addq	%rcx, %rax
 	movq	24(%rax), %rax
 	movq	%rax, -24(%rbp)
-	.loc 2 96 0 discriminator 2
+	.loc 2 100 0 discriminator 2
 	movq	cells(%rip), %rcx
 	movl	-76(%rbp), %eax
 	movslq	%eax, %rdx
@@ -1278,7 +1290,7 @@ write_binary:
 	addq	%rcx, %rax
 	movq	32(%rax), %rax
 	movq	%rax, -16(%rbp)
-	.loc 2 98 0 discriminator 2
+	.loc 2 102 0 discriminator 2
 	movq	-72(%rbp), %rdx
 	leaq	-32(%rbp), %rax
 	movq	%rdx, %rcx
@@ -1286,7 +1298,7 @@ write_binary:
 	movl	$8, %esi
 	movq	%rax, %rdi
 	call	fwrite
-	.loc 2 101 0 discriminator 2
+	.loc 2 105 0 discriminator 2
 	movq	cells(%rip), %rcx
 	movl	-76(%rbp), %eax
 	movslq	%eax, %rdx
@@ -1301,20 +1313,20 @@ write_binary:
 	movl	$1, %edx
 	movl	$8, %esi
 	call	fwrite
-	.loc 2 84 0 discriminator 2
+	.loc 2 88 0 discriminator 2
 	addl	$1, -76(%rbp)
 .L59:
-	.loc 2 84 0 is_stmt 0 discriminator 1
+	.loc 2 88 0 is_stmt 0 discriminator 1
 	movl	GV+24(%rip), %eax
 	cmpl	-76(%rbp), %eax
 	jg	.L60
-	.loc 2 104 0 is_stmt 1
+	.loc 2 108 0 is_stmt 1
 	movq	-72(%rbp), %rax
 	movq	%rax, %rdi
 	call	fclose
-	.loc 2 105 0
+	.loc 2 109 0
 	movl	$0, %eax
-	.loc 2 106 0
+	.loc 2 110 0
 	leave
 	.cfi_def_cfa 7, 8
 	ret
@@ -1322,17 +1334,17 @@ write_binary:
 .LFE8:
 	.size	write_binary, .-write_binary
 	.section	.rodata
-.LC33:
+.LC36:
 	.string	"./parameters_file.dat"
-.LC38:
+.LC41:
 	.string	"Simulation parameters:"
 	.align 8
-.LC39:
+.LC42:
 	.string	"NGRID=%d NGRID3=%d Particle_Mass=%lf NpTotal=%lf rhoMean=%lf L=%lf volCell=%lf dx=%lf Filename=%s\n"
 	.align 8
-.LC40:
+.LC43:
 	.string	"-----------------------------------------------"
-.LC41:
+.LC44:
 	.string	"Particles located in the grid"
 	.text
 	.globl	main
@@ -1362,7 +1374,7 @@ main:
 	movl	$0, %eax
 	movq	%rax, -112(%rbp)
 	.loc 3 37 0
-	movl	$.LC33, %edi
+	movl	$.LC36, %edi
 	call	read_parameters
 	.loc 3 38 0
 	movabsq	$4711630319722168320, %rax
@@ -1412,12 +1424,12 @@ main:
 	movsd	%xmm0, GV+48(%rip)
 	.loc 3 48 0
 	movsd	GV+16(%rip), %xmm0
-	ucomisd	.LC37(%rip), %xmm0
+	ucomisd	.LC40(%rip), %xmm0
 	jnb	.L63
 	cvttsd2siq	%xmm0, %rax
 	jmp	.L64
 .L63:
-	movsd	.LC37(%rip), %xmm1
+	movsd	.LC40(%rip), %xmm1
 	subsd	%xmm1, %xmm0
 	cvttsd2siq	%xmm0, %rax
 	movabsq	$-9223372036854775808, %rdx
@@ -1510,7 +1522,7 @@ main:
 	ucomisd	%xmm0, %xmm1
 	ja	.L66
 	.loc 3 83 0 is_stmt 1
-	movl	$.LC38, %edi
+	movl	$.LC41, %edi
 	call	puts
 	.loc 3 84 0
 	movq	GV+56(%rip), %r9
@@ -1536,11 +1548,11 @@ main:
 	movsd	-168(%rbp), %xmm0
 	movl	%r11d, %edx
 	movl	%r10d, %esi
-	movl	$.LC39, %edi
+	movl	$.LC42, %edi
 	movl	$6, %eax
 	call	printf
 	.loc 3 94 0
-	movl	$.LC40, %edi
+	movl	$.LC43, %edi
 	call	puts
 	.loc 3 102 0
 	movl	GV+24(%rip), %eax
@@ -1666,10 +1678,10 @@ main:
 	ucomisd	%xmm0, %xmm1
 	ja	.L70
 	.loc 3 119 0 is_stmt 1
-	movl	$.LC41, %edi
+	movl	$.LC44, %edi
 	call	puts
 	.loc 3 120 0
-	movl	$.LC40, %edi
+	movl	$.LC43, %edi
 	call	puts
 	.loc 3 123 0
 	movl	$0, -160(%rbp)
@@ -1697,21 +1709,21 @@ main:
 	.loc 3 131 0
 	movsd	GV+56(%rip), %xmm1
 	cvtsi2sd	-160(%rbp), %xmm0
-	movsd	.LC42(%rip), %xmm2
+	movsd	.LC45(%rip), %xmm2
 	addsd	%xmm2, %xmm0
 	mulsd	%xmm1, %xmm0
 	movsd	%xmm0, -104(%rbp)
 	.loc 3 132 0
 	movsd	GV+56(%rip), %xmm1
 	cvtsi2sd	-156(%rbp), %xmm0
-	movsd	.LC42(%rip), %xmm2
+	movsd	.LC45(%rip), %xmm2
 	addsd	%xmm2, %xmm0
 	mulsd	%xmm1, %xmm0
 	movsd	%xmm0, -96(%rbp)
 	.loc 3 133 0
 	movsd	GV+56(%rip), %xmm1
 	cvtsi2sd	-152(%rbp), %xmm0
-	movsd	.LC42(%rip), %xmm2
+	movsd	.LC45(%rip), %xmm2
 	addsd	%xmm2, %xmm0
 	mulsd	%xmm1, %xmm0
 	movsd	%xmm0, -88(%rbp)
@@ -1939,7 +1951,7 @@ main:
 	.loc 3 173 0 discriminator 2
 	movsd	GV+56(%rip), %xmm2
 	cvtsi2sd	-160(%rbp), %xmm0
-	movsd	.LC42(%rip), %xmm1
+	movsd	.LC45(%rip), %xmm1
 	addsd	%xmm0, %xmm1
 	cvtsi2sd	-144(%rbp), %xmm0
 	addsd	%xmm1, %xmm0
@@ -1948,7 +1960,7 @@ main:
 	.loc 3 174 0 discriminator 2
 	movsd	GV+56(%rip), %xmm2
 	cvtsi2sd	-156(%rbp), %xmm0
-	movsd	.LC42(%rip), %xmm1
+	movsd	.LC45(%rip), %xmm1
 	addsd	%xmm0, %xmm1
 	cvtsi2sd	-140(%rbp), %xmm0
 	addsd	%xmm1, %xmm0
@@ -1957,7 +1969,7 @@ main:
 	.loc 3 175 0 discriminator 2
 	movsd	GV+56(%rip), %xmm2
 	cvtsi2sd	-152(%rbp), %xmm0
-	movsd	.LC42(%rip), %xmm1
+	movsd	.LC45(%rip), %xmm1
 	addsd	%xmm0, %xmm1
 	cvtsi2sd	-136(%rbp), %xmm0
 	addsd	%xmm1, %xmm0
@@ -2138,21 +2150,21 @@ main:
 	.loc 3 211 0 discriminator 2
 	movsd	GV+56(%rip), %xmm1
 	cvtsi2sd	-160(%rbp), %xmm0
-	movsd	.LC42(%rip), %xmm2
+	movsd	.LC45(%rip), %xmm2
 	addsd	%xmm2, %xmm0
 	mulsd	%xmm1, %xmm0
 	movsd	%xmm0, -104(%rbp)
 	.loc 3 212 0 discriminator 2
 	movsd	GV+56(%rip), %xmm1
 	cvtsi2sd	-156(%rbp), %xmm0
-	movsd	.LC42(%rip), %xmm2
+	movsd	.LC45(%rip), %xmm2
 	addsd	%xmm2, %xmm0
 	mulsd	%xmm1, %xmm0
 	movsd	%xmm0, -96(%rbp)
 	.loc 3 213 0 discriminator 2
 	movsd	GV+56(%rip), %xmm1
 	cvtsi2sd	-152(%rbp), %xmm0
-	movsd	.LC42(%rip), %xmm2
+	movsd	.LC45(%rip), %xmm2
 	addsd	%xmm2, %xmm0
 	mulsd	%xmm1, %xmm0
 	movsd	%xmm0, -88(%rbp)
@@ -2290,11 +2302,11 @@ main:
 	.long	0
 	.long	1072693248
 	.align 8
-.LC37:
+.LC40:
 	.long	0
 	.long	1138753536
 	.align 8
-.LC42:
+.LC45:
 	.long	0
 	.long	1071644672
 	.text
