@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <malloc.h>
+#include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>
+#include <time.h>
 //#include <fftw3.h>
 
 #define CIC /* Preprocessor directive for the selection of the distribution
@@ -18,7 +21,8 @@
 #include "functions.h"
 #include "readWrite.h"
 
-int main(){
+int main()
+{
   
   int i, j, k, l, index, indexaux, Np, idPart;
   int ii, jj, kk;
@@ -30,13 +34,13 @@ int main(){
   double foo = 0.0;
   double mass;
   
-
+  
   //////////////////////////////////
   //* READING GADGET BINARY FILE *//
   //////////////////////////////////
   read_parameters("./parameters_file.dat");
   GV.NpTot = 10000000;
-
+  
   /* Simulation parameters */
   GV.L = 400.0;
   GV.NGRID3 = GV.NGRID * GV.NGRID * GV.NGRID;
@@ -44,24 +48,51 @@ int main(){
   GV.rhoMean = (GV.mass * GV.NpTot) / pow(GV.L,3); // Mean density in 1e10M_sun/Mpc^3
   GV.dx = GV.L / (1.0* GV.NGRID);
   GV.volCell = GV.dx*GV.dx*GV.dx;
-
-  part = (struct particle *) calloc((size_t) GV.NpTot,sizeof(struct particle));
-
-  for(i=0; i<GV.NpTot; i++){
-    part[i].posx = drand48() * GV.L;
-    part[i].posy = drand48() * GV.L;
-    part[i].posz = drand48() * GV.L;
-    
-    part[i].velx = 0.0;
-    part[i].vely = 0.0;
-    part[i].velz = 0.0;
-
-    part[i].id = i;
-    
-    part[i].mass = 1.0;
-  }
   
-
+  part = (struct particle *) calloc((size_t) GV.NpTot,sizeof(struct particle));
+  
+  
+  const gsl_rng_type * T; /*Define el tipo de generador de números 
+			    aleatorios. No hay que liberarlo*/
+  gsl_rng * r; /*Análogo al w. Puntero que contiene la info sobre cual 
+		 generador se va a usar,cantidad de memoria a usar, etc.*/
+  
+  long seed;  
+  
+  gsl_rng_env_setup();//Inicializa las rutinas de generación
+  
+  T = gsl_rng_default;/*Inicialización de T con esta variable de GSL que 
+			es la default*/
+  r = gsl_rng_alloc (T);/*Alocación de memoria*/
+  
+  seed = time(NULL)*getpid(); 
+  
+  gsl_rng_set(r, seed);/*Recibe puntero de inicialización de generación y 
+			 un entero largo como semilla*/
+  
+  
+  for(i=0; i<GV.NpTot; i++)
+    {
+      
+      part[i].posx = GV.L * gsl_rng_uniform (r);
+      part[i].posy = GV.L * gsl_rng_uniform (r);
+      part[i].posz = GV.L * gsl_rng_uniform (r);
+      
+      /*
+	part[i].posx = drand48() * GV.L;
+	part[i].posy = drand48() * GV.L;
+	part[i].posz = drand48() * GV.L;
+      */
+      part[i].velx = 0.0;
+      part[i].vely = 0.0;
+      part[i].velz = 0.0;
+      
+      part[i].id = i;
+      
+      part[i].mass = 1.0;
+    }
+  gsl_rng_free (r);  
+  
   /* Cosmological parameters */  
   //GV.OmegaM0 = Header.Omega0;
   //GV.OmegaL0 = Header.OmegaLambda;

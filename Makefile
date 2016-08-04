@@ -1,14 +1,19 @@
 CC = gcc
-CFLAGS = -g -Wall -I/home/$(USER)/libs/include/ -DCIC -DBINARYDATA
-LFLAGS = -L/home/$(USER)/libs/lib
+#CFLAGS = -g -Wall -I/home/$(USER)/libs/include/ -I/usr/include/ -DCIC -DBINARYDATA
+CFLAGS = -c -O3 -I/home/$(USER)/local/include/ -I/usr/include/ -DCIC -DBINARYDATA
+LFLAGS = -L/home/$(USER)/libs/lib 
 PROGRAM = CIC_uniform
 #PROGRAM = CIC_plummer
 #PROGRAM = CIC_plot_dens
 
 $(PROGRAM):
-	$(CC) -c -save-temps $@.c $(CFLAGS)
+	echo Compiling $@.c
+	$(CC) $(CFLAGS) $@.c -o $@.o
+	$(CC) $@.o $(LFLAGS) -lgsl -lgslcblas -lm -o $@.x
+
+	#$(CC) -c -save-temps $@.c $(CFLAGS)
 	#$(CC) $@.o -lgsl -lgslcblas -lm -lfftw3 $(LFLAGS) -o $@.x
-	$(CC) $@.o -lm $(LFLAGS) -o $@.x
+	#$(CC) $@.o -lgsl -lgslcblas -lm $(LFLAGS) -o $@.x
 
 clean:
 	rm -rf *.out
