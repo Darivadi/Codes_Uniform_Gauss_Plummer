@@ -8,7 +8,7 @@
 
 int conf2dump( char filename[] )
 {
-    char cmd[100];
+    char cmd[1000];
     sprintf( cmd, 
     "grep -v \"#\" %s | grep -v \"^$\" | gawk -F\"=\" '{print $2}' > %s.dump", 
 	filename, filename );
@@ -27,7 +27,7 @@ int conf2dump( char filename[] )
 
 int read_parameters( char filename[] )
 {
-    char cmd[100], filenamedump[100];
+    char cmd[1000], filenamedump[1000];
     int i=0;
     FILE *file;
 

@@ -10,8 +10,8 @@ PROGRAM = CIC_uniform
 $(PROGRAM):
 	echo Compiling $@.c
 	$(CC) $(CFLAGS) $@.c -o $@.o
-	$(CC) $@.o $(LFLAGS) -lm -o $@.x
-	#$(CC) $@.o $(LFLAGS) -lgsl -lgslcblas -lm -o $@.x
+	#$(CC) $@.o $(LFLAGS) -lm -o $@.x
+	$(CC) $@.o $(LFLAGS) -lgsl -lgslcblas -lm -o $@.x
 
 	#$(CC) -c -save-temps $@.c $(CFLAGS)
 	#$(CC) $@.o -lgsl -lgslcblas -lm -lfftw3 $(LFLAGS) -o $@.x
