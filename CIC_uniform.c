@@ -2,14 +2,12 @@
 #include <stdlib.h>
 #include <math.h>
 #include <malloc.h>
-#include <gsl/gsl_rng.h>
-#include <gsl/gsl_randist.h>
-#include <time.h>
+//#include <gsl/gsl_rng.h>
+//#include <gsl/gsl_randist.h>
+//#include <time.h>
 
 
-#define INDEX(i,j,k) (k)+GV.NGRID*((j)+GV.NGRID*(i)) /* Index preprocessor 
-							for the C-Order 
-						     */
+#define INDEX(i,j,k) (k)+GV.NGRID*((j)+GV.NGRID*(i)) /* Index preprocessor for the C-Order  */
 
 #include "structures.h"
 #include "functions.h"
@@ -27,12 +25,10 @@ int main()
   FILE *outfile;
   double foo = 0.0;
   double mass;
-  const gsl_rng_type * T; /*Define el tipo de generador de números 
-			    aleatorios. No hay que liberarlo*/
-  gsl_rng * r; /*Análogo al w. Puntero que contiene la info sobre cual 
-		 generador se va a usar,cantidad de memoria a usar, etc.*/
+  //const gsl_rng_type * T; /*Define el tipo de generador de números aleatorios. No hay que liberarlo*/
+  //gsl_rng * r; /*Análogo al w. Puntero que contiene la info sobre cual generador se va a usar,cantidad de memoria a usar, etc.*/
   
-  long seed;  
+  //long seed;  
   
   //////////////////////////////////
   //* READING GADGET BINARY FILE *//
