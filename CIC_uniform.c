@@ -33,7 +33,7 @@ int main()
   //* READING GADGET BINARY FILE *//
   //////////////////////////////////
   printf("Reading parameters file\n");
-  read_parameters("./parameters_file.dat");
+  read_parameters("./Parameters_files/parameters_file.dat");
   GV.NpTot = 10000000.0;
   
   printf("Parameters file read. Let's work with N=%lf particles", GV.NpTot);

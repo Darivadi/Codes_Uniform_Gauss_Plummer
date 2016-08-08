@@ -1,24 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <malloc.h>
-//#include <fftw3.h>
+#include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>
+#include <time.h>
 
-#define CIC /* Preprocessor directive for the selection of the distribution
-	       scheme in the routine windowFunction. 
-	       Distribution schemes could be Nearest Grid Point (NGP), 
-	       Cloud in Cell (CIC) and Triangular Shaped Cloud (TSC).
-	    */
 
-#define INDEX(i,j,k) (k)+GV.NGRID*((j)+GV.NGRID*(i)) /* Index preprocessor 
-							for the C-Order 
-						     */
+#define INDEX(i,j,k) (k)+GV.NGRID*((j)+GV.NGRID*(i)) /* Index preprocessor for the C-Order  */
 
 #include "structures.h"
 #include "functions.h"
 #include "readWrite.h"
 
-int main(){
+
+double Plummer(double rad, double aSL, double Mass)
+{
+  double f_plummer, factor1, factor2;
+  
+  factor1 = (3.0*Mass)/ (4 * M_PI * aSL * aSL * aSL);
+  factor2 = (1 + (rad*rad)/ (aSL*aSL) );
+  f_plummer = factor1 * pow(factor2, -5.0/2.0);
+
+  return f_plummer;
+}//Plummer
+
+
+int main()
+{
   
   int i, j, k, l, index, indexaux, Np, idPart;
   int ii, jj, kk;
@@ -29,13 +37,25 @@ int main(){
   FILE *outfile;
   double foo = 0.0;
   double mass;
+  /*GSL*/
+  const gsl_rng_type * T; /*Define el tipo de generador de números aleatorios. No hay que liberarlo*/
+  gsl_rng * r; /*Análogo al w. Puntero que contiene la info sobre cual generador se va a usar,cantidad de memoria a usar, etc.*/  
+  long seed;  
   
-
+  /*Plummer*/
+  double aux_x, aux_y, aux_z;
+  double ux, uy, uz;
+  int count_n = 0;
+  double Plummer_max, TMass, aSL;
+    
   //////////////////////////////////
   //* READING GADGET BINARY FILE *//
   //////////////////////////////////
-  read_parameters("./parameters_file.dat");
-  GV.NpTot = 10000000;
+  printf("Reading parameters file\n");
+  read_parameters("./Parameters_files/parameters_file.dat");
+  GV.NpTot = 10000000.0;
+  
+  printf("Parameters file read. Let's work with N=%lf particles", GV.NpTot);
 
   /* Simulation parameters */
   GV.L = 400.0;
@@ -44,24 +64,71 @@ int main(){
   GV.rhoMean = (GV.mass * GV.NpTot) / pow(GV.L,3); // Mean density in 1e10M_sun/Mpc^3
   GV.dx = GV.L / (1.0* GV.NGRID);
   GV.volCell = GV.dx*GV.dx*GV.dx;
-
+  
   part = (struct particle *) calloc((size_t) GV.NpTot,sizeof(struct particle));
-
-  for(i=0; i<GV.NpTot; i++){
-    part[i].posx = drand48() * GV.L;
-    part[i].posy = drand48() * GV.L;
-    part[i].posz = drand48() * GV.L;
-    
-    part[i].velx = 0.0;
-    part[i].vely = 0.0;
-    part[i].velz = 0.0;
-
-    part[i].id = i;
-    
-    part[i].mass = 1.0;
-  }
+  printf("Memory Allocated");
   
 
+  /*+++++ Initializing random generation of numbers +++++*/
+  gsl_rng_env_setup();//Inicializa las rutinas de generación
+  T = gsl_rng_default;/*Inicialización de T con esta variable de GSL que es la default*/
+  r = gsl_rng_alloc(T);/*Alocación de memoria*/
+  
+  seed = time(NULL)*getpid(); 
+  
+  gsl_rng_set(r, seed);/*Recibe puntero de inicialización de generación y  un entero largo como semilla*/
+
+  
+
+  /*+++++ Rejection method +++++*/
+
+  /*----- Maximum value of the Plummer function -----*/
+  TMass = 1000.0;
+  aSL = 10.0;
+  Plummer_max = aSL * aSL * aSL;
+  Plummer_max = 4 * M_PI * Plummer_max;
+  Plummer_max = (3.0 * TMass) / Plummer_max;
+
+  while(count_n < GV.NpTot + 1)
+    {
+      aux_x = GV.L * gsl_rng_uniform (r);
+      ux = Plummer_max * gsl_rng_uniform (r);
+      
+      aux_y = GV.L * gsl_rng_uniform (r);
+      uy = Plummer_max * gsl_rng_uniform (r);
+      
+      aux_z = GV.L * gsl_rng_uniform (r);
+      uz = Plummer_max * gsl_rng_uniform (r);
+
+      if( ux < Plummer( aux_x, aSL, TMass) )
+	{
+	  if( uy < Plummer( aux_y, aSL, TMass) )
+	    {
+	      if( uz < Plummer( aux_z, aSL, TMass) )
+		{
+		  part[i].posx = ux;
+		  part[i].posy = uy;
+		  part[i].posz = uz;
+		  part[i].id = count_n;
+		  part[i].mass = 1.0;
+		  
+		  part[i].velx = 0.0;
+		  part[i].vely = 0.0;
+		  part[i].velz = 0.0;		  
+		  
+		  count_n++; 	  
+		}//if z	      
+	    }//if y
+	}//if x
+ 
+    }//while
+  
+  printf("Total number of parts count_n=%d, GV.NpTot = %d\n", 
+	 count_n, GV.NpTot);
+  
+  
+  gsl_rng_free (r);  
+  
   /* Cosmological parameters */  
   //GV.OmegaM0 = Header.Omega0;
   //GV.OmegaL0 = Header.OmegaLambda;
@@ -194,6 +261,7 @@ int main(){
     }//for j
   }//for i
   
+  /*
   outfile = fopen("dens_uniform.dat","w");
 
   fprintf(outfile,
@@ -201,7 +269,7 @@ int main(){
 	  "#", "Index", "x", "y", "z",
 	  "vx", "vy", "vz",
 	  "rho", "DenCon", "Np_cell");
-  
+  */
   for(i=0; i<GV.NGRID; i++){
     for(j=0; j<GV.NGRID; j++){
       for(k=0; k<GV.NGRID; k++){
@@ -210,21 +278,28 @@ int main(){
 	xc = GV.dx * (0.5 + i);
 	yc = GV.dx * (0.5 + j);
 	zc = GV.dx * (0.5 + k);
+
+	cells[index].pos[X] = xc;
+	cells[index].pos[Y] = yc;
+	cells[index].pos[Z] = zc;
 	/* Calculating the final density in the cell */
 	cells[index].rho = cells[index].rho / GV.volCell;
 	/* Calculating the final density contrast in the cell */
 	cells[index].denCon = (cells[index].rho/GV.rhoMean) - 1.0;
 	/* Writting in the file  */
-	fprintf(outfile,
+	/*fprintf(outfile,
 		"%10d %12.6lf %12.6lf %12.6lf %12.6lf %12.6lf %12.6lf %12.6lf %12.6lf %10d\n", 
 		index, xc, yc, zc, 
 		cells[index].velx, cells[index].vely, cells[index].velz, 
 		cells[index].rho, cells[index].denCon, cells[index].Np_cell);
+	*/
       }//for k
     }// for j
   }// for i
-  fclose(outfile);
+  //fclose(outfile);
 
+  /* Writting in the file  */
+  write_binary();
   
   
   /* Freeing up memory allocation */
