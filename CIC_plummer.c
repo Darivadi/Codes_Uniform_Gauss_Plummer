@@ -53,9 +53,9 @@ int main()
   //////////////////////////////////
   printf("Reading parameters file\n");
   read_parameters("./Parameters_files/parameters_file.dat");
-  GV.NpTot = 1000.0;
+  GV.NpTot = 10000.0;
   
-  printf("Parameters file read. Let's work with N=%lf particles", GV.NpTot);
+  printf("Parameters file read. Let's work with N=%lf particles\n", GV.NpTot);
 
   /* Simulation parameters */
   GV.L = 400.0;
@@ -66,7 +66,7 @@ int main()
   GV.volCell = GV.dx*GV.dx*GV.dx;
   
   part = (struct particle *) calloc((size_t) GV.NpTot,sizeof(struct particle));
-  printf("Memory Allocated");
+  printf("Memory Allocated\n");
   
 
   /*+++++ Initializing random generation of numbers +++++*/
@@ -129,7 +129,7 @@ int main()
     }//while
   
   printf("Rejection finished!\n");
-  printf("Total number of parts count_n=%d, GV.NpTot = %d\n", 
+  printf("Total number of parts GV.NpTot = %lf, count_n=%d\n", 
 	 count_n, GV.NpTot);
   
   
