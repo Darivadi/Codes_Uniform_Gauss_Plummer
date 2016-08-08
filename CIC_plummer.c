@@ -53,7 +53,7 @@ int main()
   //////////////////////////////////
   printf("Reading parameters file\n");
   read_parameters("./Parameters_files/parameters_file.dat");
-  GV.NpTot = 10000000.0;
+  GV.NpTot = 1000.0;
   
   printf("Parameters file read. Let's work with N=%lf particles", GV.NpTot);
 
@@ -81,7 +81,7 @@ int main()
   
 
   /*+++++ Rejection method +++++*/
-
+  printf("Performing Rejection\n");
   /*----- Maximum value of the Plummer function -----*/
   TMass = 1000.0;
   aSL = 10.0;
@@ -116,6 +116,11 @@ int main()
 		  part[i].vely = 0.0;
 		  part[i].velz = 0.0;		  
 		  
+		  if((count_n%500000)==0)
+		    {
+		      printf("particle %d finished\n", count_n);
+		    }
+
 		  count_n++; 	  
 		}//if z	      
 	    }//if y
@@ -123,6 +128,7 @@ int main()
  
     }//while
   
+  printf("Rejection finished!\n");
   printf("Total number of parts count_n=%d, GV.NpTot = %d\n", 
 	 count_n, GV.NpTot);
   
