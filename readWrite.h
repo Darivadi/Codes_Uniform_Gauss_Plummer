@@ -70,8 +70,8 @@ int write_binary(void)
   double momentum_aux[3];
   FILE *outFile=NULL;
   //outFile = fopen("./../../Processed_data/CIC_DenCon_field_256.bin", "w");                                    
-  outFile = fopen("./../../Processed_data/CIC_DenCon_uniform_256.bin", "w");
-  //outFile = fopen("./../../Processed_data/CIC_DenCon_plummer_256.bin", "w");
+  //outFile = fopen("./../../Processed_data/CIC_DenCon_uniform_256.bin", "w");
+  outFile = fopen("./../../Processed_data/CIC_DenCon_plummer_64.bin", "w");
 
   GV.OmegaM0 = 0.258;
   GV.OmegaL0 = 0.742;

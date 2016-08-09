@@ -53,7 +53,7 @@ int main()
   //////////////////////////////////
   printf("Reading parameters file\n");
   read_parameters("./Parameters_files/parameters_file.dat");
-  GV.NpTot = 10000.0;
+  GV.NpTot = 300000.0;
   
   printf("Parameters file read. Let's work with N=%lf particles\n", GV.NpTot);
 

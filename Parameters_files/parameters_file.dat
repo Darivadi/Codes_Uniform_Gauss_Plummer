@@ -4,5 +4,5 @@
 #+++++++++++++++++++++++++++++++++++++++
 #Number of cells per axis is N
 #Total number of cells is N^3
-N = 256
+N = 64
 FILENAME = /home/dvalencia/ISW_effect/Simulation_400Mpc/Processed_data/Box_400_512_150
