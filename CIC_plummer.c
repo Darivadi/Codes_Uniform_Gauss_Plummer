@@ -26,6 +26,22 @@ double Plummer(double rad, double aSL, double Mass)
 }//Plummer
 
 
+double Plummer_inv(double Plum, double aSL, double Mass)
+{
+  double Plum_pos, factor1, factor2;
+  
+  factor1 = (3.0*Mass)/ (4 * M_PI * aSL * aSL * aSL * Plum);
+  factor1 = pow(factor1, 2.0/5.0);
+  factor2 = aSL * sqrt(factor1 - 1.0);
+  Plum_pos = GV.L + factor2;
+
+  return Plum_pos;
+}//Plummer
+
+
+
+
+
 int main()
 {
   
@@ -111,9 +127,16 @@ int main()
 	    {
 	      if( uz < Plummer( aux_z, aSL, TMass) )
 		{
-		  part[i].posx = ux;
-		  part[i].posy = uy;
-		  part[i].posz = uz;
+		  
+		  part[i].posx = Plummer_inv(ux, aSL, TMass);
+		  part[i].posy = Plummer_inv(uy, aSL, TMass);
+		  part[i].posz = Plummer_inv(uz, aSL, TMass);
+		  
+		  /*
+		  part[i].posx = aux_x;
+		  part[i].posy = aux_y;
+		  part[i].posz = aux_z;
+		  */
 		  part[i].id = count_n;
 		  part[i].mass = 1.0;
 		  
