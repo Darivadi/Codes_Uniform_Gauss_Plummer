@@ -60,7 +60,7 @@ int main()
   long seed;  
   
   /*Plummer*/
-  double aux_x, aux_y, aux_z;
+  double aux_x, aux_y, aux_z, aux_rad;
   double ux, uy, uz;
   int count_n = 0;
   double Plummer_max, TMass, aSL;
@@ -113,30 +113,34 @@ int main()
   while(count_n < GV.NpTot + 1)
     {
       aux_x = GV.L * gsl_rng_uniform (r);
-      ux = Plummer_max * gsl_rng_uniform (r);
-      
       aux_y = GV.L * gsl_rng_uniform (r);
-      uy = Plummer_max * gsl_rng_uniform (r);
-      
       aux_z = GV.L * gsl_rng_uniform (r);
+      aux_rad = aux_x*aux_x + aux_y*aux_y + aux_z*aux_z;
+      aux_rad = sqrt(aux_rad);
+
+      ux = Plummer_max * gsl_rng_uniform (r);           
+      uy = Plummer_max * gsl_rng_uniform (r);            
       uz = Plummer_max * gsl_rng_uniform (r);
 
-      if( ux < Plummer( aux_x, aSL, TMass) )
+      //if( ux < Plummer( aux_x, aSL, TMass) )
+      if( ux < Plummer( aux_rad, aSL, TMass) )
 	{
-	  if( uy < Plummer( aux_y, aSL, TMass) )
+	  //if( uy < Plummer( aux_y, aSL, TMass) )
+	  if( uy < Plummer( aux_rad, aSL, TMass) )
 	    {
-	      if( uz < Plummer( aux_z, aSL, TMass) )
+	      //if( uz < Plummer( aux_z, aSL, TMass) )
+	      if( uz < Plummer( aux_rad, aSL, TMass) )
 		{
-		  
+		  /*
 		  part[i].posx = Plummer_inv(ux, aSL, TMass);
 		  part[i].posy = Plummer_inv(uy, aSL, TMass);
 		  part[i].posz = Plummer_inv(uz, aSL, TMass);
+		  */
 		  
-		  /*
 		  part[i].posx = aux_x;
 		  part[i].posy = aux_y;
 		  part[i].posz = aux_z;
-		  */
+		  
 		  part[i].id = count_n;
 		  part[i].mass = 1.0;
 		  
