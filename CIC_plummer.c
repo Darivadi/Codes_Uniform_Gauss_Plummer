@@ -71,8 +71,8 @@ int main()
   //////////////////////////////////
   printf("Reading parameters file\n");
   read_parameters("./Parameters_files/parameters_file.dat");
-  //GV.NpTot = 300000.0;
-  GV.NpTot = 1000.0;
+  GV.NpTot = 300000.0;
+  //GV.NpTot = 1000.0;
   
   printf("Parameters file read. Let's work with N=%lf particles\n", GV.NpTot);
 
@@ -115,21 +115,21 @@ int main()
       aux_x = GV.L * gsl_rng_uniform (r);
       aux_y = GV.L * gsl_rng_uniform (r);
       aux_z = GV.L * gsl_rng_uniform (r);
-      aux_rad = aux_x*aux_x + aux_y*aux_y + aux_z*aux_z;
-      aux_rad = sqrt(aux_rad);
+      //aux_rad = aux_x*aux_x + aux_y*aux_y + aux_z*aux_z;
+      //aux_rad = sqrt(aux_rad);
 
       ux = Plummer_max * gsl_rng_uniform (r);           
       uy = Plummer_max * gsl_rng_uniform (r);            
       uz = Plummer_max * gsl_rng_uniform (r);
 
-      //if( ux < Plummer( aux_x, aSL, TMass) )
-      if( ux < Plummer( aux_rad, aSL, TMass) )
+      if( ux < Plummer( aux_x, aSL, TMass) )
+	//if( ux < Plummer( aux_rad, aSL, TMass) )
 	{
-	  //if( uy < Plummer( aux_y, aSL, TMass) )
-	  if( uy < Plummer( aux_rad, aSL, TMass) )
+	  if( uy < Plummer( aux_y, aSL, TMass) )
+	    //if( uy < Plummer( aux_rad, aSL, TMass) )
 	    {
-	      //if( uz < Plummer( aux_z, aSL, TMass) )
-	      if( uz < Plummer( aux_rad, aSL, TMass) )
+	      if( uz < Plummer( aux_z, aSL, TMass) )
+		//if( uz < Plummer( aux_rad, aSL, TMass) )
 		{
 		  /*
 		  part[i].posx = Plummer_inv(ux, aSL, TMass);
