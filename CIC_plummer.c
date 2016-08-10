@@ -15,10 +15,11 @@
 
 double Plummer(double rad, double aSL, double Mass)
 {
-  double f_plummer, factor1, factor2;
+  double f_plummer, factor1, factor2, factor3;
   
   factor1 = (3.0*Mass)/ (4 * M_PI * aSL * aSL * aSL);
-  factor2 = (1 + (rad*rad)/ (aSL*aSL) );
+  factor3 = (rad - (GV.L/2.0)) * (rad - (GV.L/2.0));
+  factor2 = (1 +  factor3) / (aSL*aSL) ;
   f_plummer = factor1 * pow(factor2, -5.0/2.0);
 
   return f_plummer;
@@ -47,13 +48,15 @@ int main()
   double ux, uy, uz;
   int count_n = 0;
   double Plummer_max, TMass, aSL;
-    
+  FILE *outFile=NULL;
+  
   //////////////////////////////////
   //* READING GADGET BINARY FILE *//
   //////////////////////////////////
   printf("Reading parameters file\n");
   read_parameters("./Parameters_files/parameters_file.dat");
-  GV.NpTot = 300000.0;
+  //GV.NpTot = 300000.0;
+  GV.NpTot = 1000.0;
   
   printf("Parameters file read. Let's work with N=%lf particles\n", GV.NpTot);
 
@@ -83,11 +86,13 @@ int main()
   /*+++++ Rejection method +++++*/
   printf("Performing Rejection\n");
   /*----- Maximum value of the Plummer function -----*/
-  TMass = 1000.0;
+  TMass = 100.0;
   aSL = 10.0;
   Plummer_max = aSL * aSL * aSL;
   Plummer_max = 4 * M_PI * Plummer_max;
   Plummer_max = (3.0 * TMass) / Plummer_max;
+
+  outFile = fopen("./../../Processed_data/Plummer_parts.bin", "w");
 
   while(count_n < GV.NpTot + 1)
     {
@@ -121,6 +126,8 @@ int main()
 		      printf("particle %d finished\n", count_n);
 		    }
 
+		  fprintf(outFile, "%16.8lf %16.8lf %16.8lf\n", part[i].posx, part[i].posy, part[i].posz);
+		  
 		  count_n++; 	  
 		}//if z	      
 	    }//if y
@@ -128,6 +135,8 @@ int main()
  
     }//while
   
+  fclose(outFile);
+
   printf("Rejection finished!\n");
   printf("Total number of parts GV.NpTot = %lf, count_n=%d\n", 
 	 count_n, GV.NpTot);
