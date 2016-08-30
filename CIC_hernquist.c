@@ -13,31 +13,6 @@
 #include "readWrite.h"
 
 
-double Plummer(double rad, double aSL, double Mass)
-{
-  double f_plummer, factor1, factor2, factor3;
-  
-  factor1 = (3.0*Mass)/ (4 * M_PI * aSL * aSL * aSL);
-  factor3 = (rad - (GV.L/2.0)) * (rad - (GV.L/2.0));
-  factor2 = (1 +  factor3) / (aSL*aSL) ;
-  f_plummer = factor1 * pow(factor2, -5.0/2.0);
-
-  return f_plummer;
-}//Plummer
-
-
-double Plummer_inv(double Plum, double aSL, double Mass)
-{
-  double Plum_pos, factor1, factor2;
-  
-  factor1 = (3.0*Mass)/ (4 * M_PI * aSL * aSL * aSL * Plum);
-  factor1 = pow(factor1, 2.0/5.0);
-  factor2 = aSL * sqrt(factor1 - 1.0);
-  Plum_pos = GV.L + factor2;
-
-  return Plum_pos;
-}//Plummer
-
 
 
 int main()
@@ -59,7 +34,7 @@ int main()
   
   /*Plummer*/
   double aux_x, aux_y, aux_z, aux_rad;
-  double ux, uy, uz, phi, theta;
+  double ux, uy, uz;
   int count_n = 0;
   double Plummer_max, TMass, aSL;
   FILE *outFile=NULL;
@@ -69,7 +44,7 @@ int main()
   //////////////////////////////////
   printf("Reading parameters file\n");
   read_parameters("./Parameters_files/parameters_file.dat");
-  GV.NpTot = 1.0*256*256*256;
+  //GV.NpTot = 300000.0;
   //GV.NpTot = 1000.0;
   
   printf("Parameters file read. Let's work with N=%lf particles\n", GV.NpTot);
@@ -85,7 +60,7 @@ int main()
   part = (struct particle *) calloc((size_t) GV.NpTot,sizeof(struct particle));
   printf("Memory Allocated\n");
   
-
+  
   /*+++++ Initializing random generation of numbers +++++*/
   gsl_rng_env_setup();//Inicializa las rutinas de generación
   T = gsl_rng_default;/*Inicialización de T con esta variable de GSL que es la default*/
@@ -95,46 +70,47 @@ int main()
   
   gsl_rng_set(r, seed);/*Recibe puntero de inicialización de generación y  un entero largo como semilla*/
 
+    
   
+  /*+++++ Hernquist profile generator +++++*/
+  double rad,V,Rfin,Rini,dens,PDF_max,MAXIMA_COMPARATION,comparation;
+  double teta,phi,EPS,desp[3],*param,q;
+  float *arr;
+  int count,NPBIN=100;
 
-  /*+++++ Rejection method +++++*/
+    /*+++++ Rejection method +++++*/
   printf("Performing Rejection\n");
   /*----- Maximum value of the Plummer function -----*/
   TMass = 100.0;
   aSL = 10.0;
-  Plummer_max = aSL * aSL * aSL;
-  Plummer_max = 4 * M_PI * Plummer_max;
-  Plummer_max = (3.0 * TMass) / Plummer_max;
 
-  outFile = fopen("./../../Processed_data/Plummer_parts.bin", "w");
-
+    
+  
   while(count_n < GV.NpTot + 1)
-    {
-      aux_rad = GV.L * gsl_rng_uniform (r);
-      ux = Plummer_max * gsl_rng_uniform (r);           
+    {             
+      //q = 0.98 * gsl_rng_uniform (r);
+      //X = (-aH*q - aH*sqrt(q))/(q-1);
+      q = GV.L * gsl_rng_uniform (r);      
+      rad = (-aSL*q - aSL*sqrt(q))/(q-1);
       
       phi = 2.0*M_PI * gsl_rng_uniform (r);
-      theta = acos(1.0 - 2.0 * gsl_rng_uniform (r)); 
+      teta = acos(1.0 - 2.0 * gsl_rng_uniform (r)); 
       
-      if( ux < Plummer( aux_rad, aSL, TMass) )
-	{
-	  part[count_n].posx = aux_rad * sin(theta) * cos(phi);
-	  part[count_n].posy = aux_rad * sin(theta) * sin(phi);
-	  part[count_n].posz = aux_rad * cos(theta);
-	  
-	  part[count_n].id = count_n;
-	  part[count_n].mass = 1.0;
-	  
-	  part[count_n].velx = 0.0;
-	  part[count_n].vely = 0.0;
-	  part[count_n].velz = 0.0;
-	  
-	  count_n++;
-	}//if
-       
+      part[count_n].posx = rad*sin(teta)*cos(phi); 
+      part[count_n].posy = rad*sin(teta)*sin(phi); 
+      part[count_n].posz = rad*cos(teta); 
+      
+      part[count_n].id = count_n;
+      part[count_n].mass = 1.0;
+      
+      part[count_n].velx = 0.0;
+      part[count_n].vely = 0.0;
+      part[count_n].velz = 0.0;
+            
+      count_n++;
     }//while
-  
-  fclose(outFile);
+    
+
 
   printf("Rejection finished!\n");
   printf("Total number of parts GV.NpTot = %lf, count_n=%d\n", 
