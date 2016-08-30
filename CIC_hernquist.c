@@ -44,7 +44,7 @@ int main()
   //////////////////////////////////
   printf("Reading parameters file\n");
   read_parameters("./Parameters_files/parameters_file.dat");
-  GV.NpTot = 1.0*260*260*260;
+  GV.NpTot *= GV.NpTot*GV.NpTot;
   //GV.NpTot = 1000.0;
   
   printf("Parameters file read. Let's work with N=%d particles\n", GV.NpTot);
@@ -58,7 +58,7 @@ int main()
   GV.volCell = GV.dx*GV.dx*GV.dx;
   
   part = (struct particle *) calloc((size_t) GV.NpTot,sizeof(struct particle));
-  printf("Memory Allocated\n");
+  printf("Memory Allocated for particles\n");
   
   
   /*+++++ Initializing random generation of numbers +++++*/
@@ -85,7 +85,6 @@ int main()
   aSL = 10.0;
 
     
-  count_n = 0;
   
   for(i=0; i < GV.NpTot; i++ )
     {             
@@ -107,7 +106,11 @@ int main()
       part[i].velx = 0.0;
       part[i].vely = 0.0;
       part[i].velz = 0.0;
-           
+      
+      part[i].posx += 0.5*GV.L; 
+      part[i].posy += 0.5*GV.L; 
+      part[i].posz += 0.5*GV.L; 
+                 
     }//for i
     
 
@@ -118,6 +121,7 @@ int main()
   
   
   gsl_rng_free (r);  
+  printf("gsl memory released\n");
   
   /* Cosmological parameters */  
   //GV.OmegaM0 = Header.Omega0;

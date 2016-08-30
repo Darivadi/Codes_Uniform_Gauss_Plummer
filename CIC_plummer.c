@@ -69,7 +69,7 @@ int main()
   //////////////////////////////////
   printf("Reading parameters file\n");
   read_parameters("./Parameters_files/parameters_file.dat");
-  GV.NpTot = 1.0*256*256*256;
+  GV.NpTot *= GV.NpTot*GV.NpTot;
   //GV.NpTot = 1000.0;
   
   printf("Parameters file read. Let's work with N=%d particles\n", GV.NpTot);
