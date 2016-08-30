@@ -47,7 +47,7 @@ int main()
   GV.volCell = GV.dx*GV.dx*GV.dx;
   
   part = (struct particle *) calloc((size_t) GV.NpTot,sizeof(struct particle));
-  printf("Memory Allocated");
+  printf("Memory Allocated\n");
   
   gsl_rng_env_setup();//Inicializa las rutinas de generación
   T = gsl_rng_default;/*Inicialización de T con esta variable de GSL que es la default*/
@@ -77,7 +77,11 @@ int main()
       part[i].id = i;
       
       part[i].mass = 1.0;
-    }
+      
+      if(i%1000000==0)
+	printf("Part i=%d has pos_x=%lf", i, part[i].posx );
+
+    }//for i
   
   //gsl_rng_free (r);  
   
