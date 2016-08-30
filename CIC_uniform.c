@@ -79,7 +79,7 @@ int main()
       part[i].mass = 1.0;
       
       if(i%1000000==0)
-	printf("Part i=%d has pos_x=%lf", i, part[i].posx );
+	printf("Part i=%d has pos_x=%lf\n", i, part[i].posx );
 
     }//for i
   
@@ -104,16 +104,12 @@ int main()
     printf("-----------------------------------------------\n");
   */
   printf("Simulation parameters:\n");
-  printf("NGRID=%d NGRID3=%d Particle_Mass=%lf NpTotal=%lf rhoMean=%lf L=%lf volCell=%lf dx=%lf Filename=%s\n",
+  printf("NGRID=%d NGRID3=%d NpTotal=%d L=%lf dx=%lf\n",
 	 GV.NGRID,
 	 GV.NGRID3,
-	 GV.mass,
 	 GV.NpTot,
-	 GV.rhoMean,
 	 GV.L,
-	 GV.volCell,
-	 GV.dx,
-	 GV.FILENAME);
+	 GV.dx);
   printf("-----------------------------------------------\n");
 
 
