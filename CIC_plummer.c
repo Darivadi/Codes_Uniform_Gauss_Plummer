@@ -171,16 +171,12 @@ int main()
     printf("-----------------------------------------------\n");
   */
   printf("Simulation parameters:\n");
-  printf("NGRID=%d NGRID3=%d Particle_Mass=%lf NpTotal=%lf rhoMean=%lf L=%lf volCell=%lf dx=%lf Filename=%s\n",
+  printf("NGRID=%d NGRID3=%d NpTotal=%d L=%lf dx=%lf\n",
 	 GV.NGRID,
 	 GV.NGRID3,
-	 GV.mass,
 	 GV.NpTot,
-	 GV.rhoMean,
 	 GV.L,
-	 GV.volCell,
-	 GV.dx,
-	 GV.FILENAME);
+	 GV.dx);
   printf("-----------------------------------------------\n");
 
 
