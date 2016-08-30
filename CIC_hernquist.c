@@ -47,7 +47,7 @@ int main()
   //GV.NpTot = 300000.0;
   //GV.NpTot = 1000.0;
   
-  printf("Parameters file read. Let's work with N=%lf particles\n", GV.NpTot);
+  printf("Parameters file read. Let's work with N=%d particles\n", GV.NpTot);
 
   /* Simulation parameters */
   GV.L = 400.0;
@@ -85,8 +85,9 @@ int main()
   aSL = 10.0;
 
     
+  count_n = 0;
   
-  while(count_n < GV.NpTot + 1)
+  for(i=0; i < GV.NpTot; i++ )
     {             
       //q = 0.98 * gsl_rng_uniform (r);
       //X = (-aH*q - aH*sqrt(q))/(q-1);
@@ -96,25 +97,24 @@ int main()
       phi = 2.0*M_PI * gsl_rng_uniform (r);
       teta = acos(1.0 - 2.0 * gsl_rng_uniform (r)); 
       
-      part[count_n].posx = rad*sin(teta)*cos(phi); 
-      part[count_n].posy = rad*sin(teta)*sin(phi); 
-      part[count_n].posz = rad*cos(teta); 
+      part[i].posx = rad*sin(teta)*cos(phi); 
+      part[i].posy = rad*sin(teta)*sin(phi); 
+      part[i].posz = rad*cos(teta); 
       
-      part[count_n].id = count_n;
-      part[count_n].mass = 1.0;
+      part[i].id = count_n;
+      part[i].mass = 1.0;
       
-      part[count_n].velx = 0.0;
-      part[count_n].vely = 0.0;
-      part[count_n].velz = 0.0;
-            
-      count_n++;
-    }//while
+      part[i].velx = 0.0;
+      part[i].vely = 0.0;
+      part[i].velz = 0.0;
+           
+    }//for i
     
 
 
   printf("Rejection finished!\n");
-  printf("Total number of parts GV.NpTot = %lf, count_n=%d\n", 
-	 count_n, GV.NpTot);
+  printf("Total number of parts GV.NpTot = %d, count_n=%d\n", 
+	 GV.NpTot, count_n);
   
   
   gsl_rng_free (r);  
@@ -156,10 +156,12 @@ int main()
   //////////////////////////////
 
   /* Array of structure Cell, size NGRID^3 */
-  cells = (struct Cell *)calloc( GV.NGRID3, sizeof( struct Cell) );
+  cells = (struct Cell *)calloc( (size_t) GV.NGRID3, sizeof( struct Cell) );
+  printf("Memory allocated\n");
 
   // Setting values to zero at the beggining
-  for(i=0; i<GV.NGRID3; i++){
+  for(i=0; i<GV.NGRID3; i++)
+    {
     cells[i].Np_cell = 0;
     cells[i].denCon = 0.0;
     cells[i].rho = 0.0;

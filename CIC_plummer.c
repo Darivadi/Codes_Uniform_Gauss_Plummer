@@ -72,7 +72,7 @@ int main()
   GV.NpTot = 1.0*256*256*256;
   //GV.NpTot = 1000.0;
   
-  printf("Parameters file read. Let's work with N=%lf particles\n", GV.NpTot);
+  printf("Parameters file read. Let's work with N=%d particles\n", GV.NpTot);
 
   /* Simulation parameters */
   GV.L = 400.0;
@@ -106,9 +106,10 @@ int main()
   Plummer_max = 4 * M_PI * Plummer_max;
   Plummer_max = (3.0 * TMass) / Plummer_max;
 
-  outFile = fopen("./../../Processed_data/Plummer_parts.bin", "w");
-
-  while(count_n < GV.NpTot + 1)
+  //outFile = fopen("./../../Processed_data/Plummer_parts.bin", "w");
+  count_n = 0;
+  
+  while(count_n < GV.NpTot )
     {
       aux_rad = GV.L * gsl_rng_uniform (r);
       ux = Plummer_max * gsl_rng_uniform (r);           
@@ -134,11 +135,19 @@ int main()
        
     }//while
   
-  fclose(outFile);
+  //fclose(outFile);
+
+  for(i = 0; i <  GV.NpTot; i++)
+    {
+      part[i].posx += 0.5*GV.L;
+      part[i].posy += 0.5*GV.L;
+      part[i].posz += 0.5*GV.L;
+    }//for i
+
 
   printf("Rejection finished!\n");
-  printf("Total number of parts GV.NpTot = %lf, count_n=%d\n", 
-	 count_n, GV.NpTot);
+  printf("Total number of parts GV.NpTot = %d, count_n=%d\n", 
+	 GV.NpTot, count_n);
   
   
   gsl_rng_free (r);  
@@ -180,7 +189,8 @@ int main()
   //////////////////////////////
 
   /* Array of structure Cell, size NGRID^3 */
-  cells = (struct Cell *)calloc( GV.NGRID3, sizeof( struct Cell) );
+  cells = (struct Cell *)calloc((size_t) GV.NGRID3, sizeof( struct Cell) );
+  printf("Memory allocated\n");
 
   // Setting values to zero at the beggining
   for(i=0; i<GV.NGRID3; i++){

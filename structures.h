@@ -7,7 +7,7 @@
 struct globalVariables{
   int NGRID;      // Number of cell in one axis.
   double L;       // Lenght of the simulation in Mpc.
-  double NpTot;   // Total number of particles
+  int NpTot;   // Total number of particles
   int NGRID3;     // Total number of cells
   double rhoMean; // Mean density of ALL the simulation
   double mass;    // Mass of each particle
