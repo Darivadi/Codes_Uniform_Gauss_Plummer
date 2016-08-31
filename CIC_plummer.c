@@ -111,7 +111,7 @@ int main()
   
   while(count_n < GV.NpTot )
     {
-      aux_rad = 0.5*GV.L * gsl_rng_uniform (r);
+      aux_rad = aSL * gsl_rng_uniform (r);
       ux = Plummer_max * gsl_rng_uniform (r);           
       
       phi = 2.0*M_PI * gsl_rng_uniform (r);
@@ -130,20 +130,16 @@ int main()
 	  part[count_n].vely = 0.0;
 	  part[count_n].velz = 0.0;
 	  
+	  part[count_n].posx += 0.5*GV.L;
+	  part[count_n].posy += 0.5*GV.L;
+	  part[count_n].posz += 0.5*GV.L;
+	  
 	  count_n++;
 	}//if
        
     }//while
   
   //fclose(outFile);
-
-  for(i = 0; i <  GV.NpTot; i++)
-    {
-      part[i].posx += 0.5*GV.L;
-      part[i].posy += 0.5*GV.L;
-      part[i].posz += 0.5*GV.L;
-    }//for i
-
 
   printf("Rejection finished!\n");
   printf("Total number of parts GV.NpTot = %d, count_n=%d\n", 
@@ -153,8 +149,8 @@ int main()
 	 part[0].posx, part[0].posy, part[0].posz);
   
   printf("part i=NpTot-1 has posx=%lf posy=%lf posz=%lf\n", 
-	 part[GV.NpTot-1].posx, part[GV.NpTot-1].posy, part[GV.NpTot-1].posz);
-  
+	 part[GV.NpTot-1].posx, part[GV.NpTot-1].posy, part[GV.NpTot-1].posz); 
+ 
   
   gsl_rng_free (r);  
   

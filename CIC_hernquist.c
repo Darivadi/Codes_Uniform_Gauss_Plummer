@@ -90,7 +90,7 @@ int main()
     {             
       //q = 0.98 * gsl_rng_uniform (r);
       //X = (-aH*q - aH*sqrt(q))/(q-1);
-      q = 0.5* GV.L * gsl_rng_uniform (r);
+      q   = aSL * gsl_rng_uniform (r);
       rad = (-aSL*q - aSL*sqrt(q))/(q-1);
       
       phi = 2.0*M_PI * gsl_rng_uniform (r);
