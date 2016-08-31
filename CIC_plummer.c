@@ -149,7 +149,11 @@ int main()
   printf("Total number of parts GV.NpTot = %d, count_n=%d\n", 
 	 GV.NpTot, count_n);
 
-  printf("part i=0 has posx=%lf posx=%lf posx=%lf\n");
+  printf("part i=0 has posx=%lf posy=%lf posz=%lf\n", 
+	 part[0].posx, part[0].posy, part[0].posz);
+  
+  printf("part i=NpTot-1 has posx=%lf posy=%lf posz=%lf\n", 
+	 part[GV.NpTot-1].posx, part[GV.NpTot-1].posy, part[GV.NpTot-1].posz);
   
   
   gsl_rng_free (r);  
@@ -204,6 +208,9 @@ int main()
   printf("Locating particles\n");
   for(i=0; i<GV.NpTot; i++){
     locateCell(part[i].posx, part[i].posy, part[i].posz, i, cells);
+    
+    if(i%1000000==0)
+      printf("particle i=%d located\n", i);
   }
 
   printf("Particles located in the grid\n");
