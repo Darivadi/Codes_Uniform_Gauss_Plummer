@@ -148,6 +148,8 @@ int main()
   printf("Rejection finished!\n");
   printf("Total number of parts GV.NpTot = %d, count_n=%d\n", 
 	 GV.NpTot, count_n);
+
+  printf("part i=0 has posx=%lf posx=%lf posx=%lf\n");
   
   
   gsl_rng_free (r);  
