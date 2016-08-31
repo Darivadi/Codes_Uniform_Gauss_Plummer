@@ -199,6 +199,7 @@ int main()
   }
   
   /* Locating cells */
+  printf("Locating particles\n");
   for(i=0; i<GV.NpTot; i++){
     locateCell(part[i].posx, part[i].posy, part[i].posz, i, cells);
   }

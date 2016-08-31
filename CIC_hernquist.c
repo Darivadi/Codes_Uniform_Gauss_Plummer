@@ -100,7 +100,7 @@ int main()
       part[i].posy = rad*sin(teta)*sin(phi); 
       part[i].posz = rad*cos(teta); 
       
-      part[i].id = count_n;
+      part[i].id = i;
       part[i].mass = 1.0;
       
       part[i].velx = 0.0;
@@ -170,7 +170,9 @@ int main()
     cells[i].velz = 0.0;
   }
   
+  
   /* Locating cells */
+  printf("Locating particles\n");
   for(i=0; i<GV.NpTot; i++){
     locateCell(part[i].posx, part[i].posy, part[i].posz, i, cells);
   }
