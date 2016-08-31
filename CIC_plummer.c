@@ -111,7 +111,7 @@ int main()
   
   while(count_n < GV.NpTot )
     {
-      aux_rad = GV.L * gsl_rng_uniform (r);
+      aux_rad = 0.5*GV.L * gsl_rng_uniform (r);
       ux = Plummer_max * gsl_rng_uniform (r);           
       
       phi = 2.0*M_PI * gsl_rng_uniform (r);
