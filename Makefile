@@ -4,9 +4,9 @@ CFLAGS = -c -O3 -I/home/$(USER)/local/include/ -I/usr/include/ -DCIC -DBINARYDAT
 #CFLAGS = -g -I/home/$(USER)/local/include/ -I/usr/include/ -DCIC -DBINARYDATA
 LFLAGS = -L/home/$(USER)/local/lib 
 #PROGRAM = CIC_uniform
-PROGRAM = CIC_plummer
+#PROGRAM = CIC_plummer
 #PROGRAM = CIC_plot_dens
-#PROGRAM = CIC_hernquist
+PROGRAM = CIC_hernquist
 
 $(PROGRAM):
 	echo Compiling $@.c

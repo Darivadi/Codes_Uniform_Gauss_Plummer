@@ -84,21 +84,30 @@ int main()
   TMass = 100.0;
   aSL = 10.0;
 
-    
+  
+  outFile = fopen("./../../Processed_data/Hernquist_pos.bin", "w");
   
   for(i=0; i < GV.NpTot; i++ )
     {             
       //q = 0.98 * gsl_rng_uniform (r);
       //X = (-aH*q - aH*sqrt(q))/(q-1);
-      q   = aSL * gsl_rng_uniform (r);
-      rad = (-aSL*q - aSL*sqrt(q))/(q-1);
-      
-      phi = 2.0*M_PI * gsl_rng_uniform (r);
-      teta = acos(1.0 - 2.0 * gsl_rng_uniform (r)); 
-      
-      part[i].posx = rad*sin(teta)*cos(phi); 
-      part[i].posy = rad*sin(teta)*sin(phi); 
-      part[i].posz = rad*cos(teta); 
+
+      /*::: X axis :::*/
+      do
+	{
+	  q   = GV.L * gsl_rng_uniform (r);
+	  rad = (-aSL*q - aSL*sqrt(q))/(q-1);
+	  
+	  phi = 2.0*M_PI * gsl_rng_uniform (r);
+	  teta = acos(1.0 - 2.0 * gsl_rng_uniform (r)); 
+	  
+	  part[i].posx = rad*sin(teta)*cos(phi); 
+	  part[i].posy = rad*sin(teta)*sin(phi); 
+	  part[i].posz = rad*cos(teta); 
+	  	  
+	}
+      while( part[i].posx > (0.5*GV.L) && part[i].posy > (0.5*GV.L) && part[i].posz > (0.5*GV.L) );
+
       
       part[i].id = i;
       part[i].mass = 1.0;
@@ -111,8 +120,13 @@ int main()
       part[i].posy += 0.5*GV.L; 
       part[i].posz += 0.5*GV.L; 
                  
+      fwrite(&part[i].posx, sizeof(double), 1, outFile);
+      fwrite(&part[i].posy, sizeof(double), 1, outFile);
+      fwrite(&part[i].posz, sizeof(double), 1, outFile);
+
     }//for i
-    
+
+  fclose(outFile);  
 
 
   printf("Rejection finished!\n");
